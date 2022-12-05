@@ -12,6 +12,12 @@ public class HomeController : Controller {
 	}
 
 	public IActionResult Index() {
+		logger.LogTrace("This is way more detail than you'll ever need...");
+		logger.LogDebug("This is probably useful if you're troubleshooting something");
+		logger.LogInformation("Hey! Everything is fine; just checking in.");
+		logger.LogWarning("Something weird happened... let's keep an eye on it in case it happens 100 times");
+		logger.LogError("Something definitely went wrong, but only one person noticed");
+		logger.LogCritical("The entire website is on fire. Wake up the boss");
 		return View();
 	}
 
