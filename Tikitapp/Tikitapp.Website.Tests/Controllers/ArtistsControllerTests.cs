@@ -20,7 +20,7 @@ public class ArtistsControllerTests  {
 	public async Task Artist_Shows_Returns_ViewResult_With_Artist_In_Model() {
 		var db = await TestDatabase.CreateDbContext().PopulateWithTestDataAsync();		
 		var c = new ArtistsController(logger, db); // Arrange
-		var result = c.Shows(TestData.Artist1.Id) as ViewResult;
+		var result = c.Shows(TestData.Artist1.Slug) as ViewResult;
 		result.ShouldNotBeNull();
 		var artist =((result).Model as Artist);
 		artist.ShouldNotBeNull();

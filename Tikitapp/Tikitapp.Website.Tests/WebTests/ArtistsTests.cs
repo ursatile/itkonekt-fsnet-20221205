@@ -31,7 +31,7 @@ public class ArtistsTests : IClassFixture<WebApplicationFactory<Program>> {
             builder.ConfigureServices(services => services.AddSingleton(db));
         }).CreateClient();
 
-        var response = await client.GetAsync($"/artists/shows/{TestData.Artist1.Id}");
+        var response = await client.GetAsync($"/artists/shows/{TestData.Artist1.Slug}");
         response.IsSuccessStatusCode.ShouldBe(true);
         var html = await response.Content.ReadAsStringAsync();
         html.ShouldContain(TestData.Artist1.Name);

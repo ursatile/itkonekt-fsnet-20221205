@@ -15,8 +15,8 @@ public class ArtistsController : Controller {
         return View(artists);        
     }
 
-	public IActionResult Shows(Guid id) {
-        var artist = db.Artists.Find(id);
+	public IActionResult Shows(string id) {
+		var artist = db.Artists.FirstOrDefault(a => a.Slug == id);
 		if (artist == default) return NotFound();
 		return View(artist);
 	}

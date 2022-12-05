@@ -3,11 +3,14 @@ using Tikitapp.Website.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 var sqlConnectionString = builder.Configuration.GetConnectionString("Tikitapp");
 builder.Services.AddDbContext<TikitappDbContext>(options => options.UseSqlServer(sqlConnectionString));
+
 
 var app = builder.Build();
 
