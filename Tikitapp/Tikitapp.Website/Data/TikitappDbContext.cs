@@ -12,7 +12,10 @@ public class TikitappDbContext : DbContext {
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder) {
 		base.OnModelCreating(modelBuilder);
-		//TODO: configure specific details of DB schema
+		modelBuilder.Entity<Artist>(entity => {
+			entity.Property(e => e.Slug).IsUnicode(false);
+			entity.HasIndex(e => e.Slug).IsUnique();
+		});		
 	}
 }
 
