@@ -11,7 +11,6 @@ public class HomeControllerTests  {
 		var result = c.Index();
 
 		// Assert
-		result.ShouldBeOfType<ViewResult>();
-     
+		result.ShouldBeOfType<ViewResult>();     
 	}
 }

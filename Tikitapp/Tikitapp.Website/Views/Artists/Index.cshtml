@@ -7,6 +7,10 @@
 <h1 class="display-4">Artists</h1>
 <ul>
     @foreach (var artist in Model) {
-        <li>@artist.Name</li>
+        <li>
+            <a href="@Url.Action("Shows", "Artists", new { id = artist.Id })">
+                @artist.Name
+            </a>
+        </li>
     }
 </ul>

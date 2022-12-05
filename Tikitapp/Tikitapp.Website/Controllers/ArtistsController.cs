@@ -14,4 +14,10 @@ public class ArtistsController : Controller {
         var artists = db.Artists.ToList();
         return View(artists);        
     }
+
+	public IActionResult Shows(Guid id) {
+        var artist = db.Artists.Find(id);
+		if (artist == default) return NotFound();
+		return View(artist);
+	}
 }
