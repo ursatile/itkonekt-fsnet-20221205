@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace Tikitapp.Website.Data.Entities;
 
@@ -11,4 +12,6 @@ public class Venue {
 	public string StreetAddress { get; set; } = String.Empty;
 	public string CultureInfoName { get; set; } = String.Empty;
 	public virtual List<Show> Shows { get; set; } = new();
+
+    public CultureInfo CultureInfo => new CultureInfo(CultureInfoName);
 }

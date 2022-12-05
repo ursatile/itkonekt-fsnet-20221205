@@ -7,9 +7,10 @@
 <h1 class="display-4">@Model.Name</h1>
 <dl>
     @foreach(var show in Model.Shows) {
-        <dt>@show.Venue.Name @show.DoorsOpen</dt>
+        <dt>@show.Venue.Name @show.DoorsOpen.ToString("D", show.Venue.CultureInfo)</dt>
         <dd>@foreach(var tt in show.TicketTypes) {
-            @tt.Name @tt.Price <text> / </text>
+            @tt.Name<text>&nbsp;</text>
+            @tt.Price.ToString("C", show.Venue.CultureInfo)           <br/>
         }        
         </dd>
 
