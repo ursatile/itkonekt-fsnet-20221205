@@ -25,7 +25,7 @@ public class TikitappDbContext : DbContext {
 
 		builder.Entity<Venue>(entity => {
 			entity.HasMany(e => e.Shows).WithOne(e => e.Venue);
-			entity.Property(v => v.CountryCode).HasMaxLength(2).IsUnicode(false);
+			entity.Property(v => v.CultureInfoName).HasMaxLength(16).IsUnicode(false);
 		});
 
 		builder.Entity<TicketType>(entity => {

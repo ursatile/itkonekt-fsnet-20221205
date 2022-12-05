@@ -7,7 +7,7 @@
 <h1 class="display-4">@Model.Name</h1>
 <dl>
     @foreach(var show in Model.Shows) {
-        <dt>@show.Venue.Name (@show.Venue.CountryCode) @show.DoorsOpen</dt>
+        <dt>@show.Venue.Name @show.DoorsOpen</dt>
         <dd>@foreach(var tt in show.TicketTypes) {
             @tt.Name @tt.Price <text> / </text>
         }        
