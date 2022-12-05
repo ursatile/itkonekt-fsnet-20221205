@@ -9,11 +9,11 @@ public class ArtistsController : Controller {
 		this.logger = logger;
 		this.db = db;
 	}
-    
-    public IActionResult Index() {
-        var artists = db.Artists.ToList();
-        return View(artists);        
-    }
+
+	public IActionResult Index() {
+		var artists = db.Artists.ToList();
+		return View(artists);
+	}
 
 	public IActionResult Shows(string id) {
 		var artist = db.Artists.FirstOrDefault(a => a.Slug == id);

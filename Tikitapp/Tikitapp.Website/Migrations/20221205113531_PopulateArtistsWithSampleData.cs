@@ -7,7 +7,7 @@ namespace Tikitapp.Website.Migrations {
 	public partial class PopulateArtistsWithSampleData : Migration {
 		/// <inheritdoc />
 		protected override void Up(MigrationBuilder migrationBuilder) {
-            migrationBuilder.Sql(@"
+			migrationBuilder.Sql(@"
                 INSERT INTO Artists(Id, Name) VALUES('00000001-0000-0000-0000-000BDA4C94B5', 'Alter Column')
 				INSERT INTO Artists(Id, Name) VALUES('00000002-0000-0000-0000-000BDA4C94B5', 'Binary Search')
 				INSERT INTO Artists(Id, Name) VALUES('00000003-0000-0000-0000-000BDA4C94B5', 'C0DA')

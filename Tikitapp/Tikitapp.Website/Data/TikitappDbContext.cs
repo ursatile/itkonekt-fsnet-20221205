@@ -16,13 +16,16 @@ public class TikitappDbContext : DbContext {
 
 	protected override void OnModelCreating(ModelBuilder builder) {
 		base.OnModelCreating(builder);
-		
+
+		ConfigureSlugs(builder);
+
 		builder.Entity<Artist>(entity => {
 			entity.HasMany(a => a.Shows).WithOne(show => show.Artist);
-		});		
-		
+		});
+
 		builder.Entity<Venue>(entity => {
 			entity.HasMany(e => e.Shows).WithOne(e => e.Venue);
+			entity.Property(v => v.CountryCode).HasMaxLength(2).IsUnicode(false);
 		});
 
 		builder.Entity<TicketType>(entity => {

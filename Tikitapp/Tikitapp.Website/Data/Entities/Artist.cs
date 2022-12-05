@@ -9,5 +9,5 @@ public class Artist {
 	[MaxLength(100)]
 	public string Slug { get; set; } = String.Empty;
 
-	public virtual List<Show> Shows { get;set; } = new();
+	public virtual List<Show> Shows { get; set; } = new();
 }
