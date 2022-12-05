@@ -12,7 +12,7 @@ using Tikitapp.Website.Data;
 namespace Tikitapp.Website.Migrations
 {
     [DbContext(typeof(TikitappDbContext))]
-    [Migration("20221205112601_InitialCreate")]
+    [Migration("20221205113344_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
