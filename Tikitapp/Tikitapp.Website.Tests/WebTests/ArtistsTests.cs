@@ -8,20 +8,9 @@ public class ArtistsTests : IClassFixture<WebApplicationFactory<Program>> {
 
     [Fact]
     public async Task Artists_Index_Returns_SuccessStatusCode() {
-
-        var options = new DbContextOptionsBuilder<TikitappDbContext>()
-			.UseInMemoryDatabase(databaseName: "some-database-name")
-			.Options;
-		var db = new TikitappDbContext(options);
-		db.Database.EnsureCreated();
-
-        var testArtistName1 = Guid.NewGuid().ToString();
-        var testArtistName2 = Guid.NewGuid().ToString();
-    
-        db.Artists.Add(new Artist { Name = testArtistName1 });
-        db.Artists.Add(new Artist { Name = testArtistName2 });
-        db.SaveChanges();
-
+        
+        var db = await TestDatabase.CreateDbContext().PopulateWithTestDataAsync();
+        
         var client = factory.WithWebHostBuilder(builder => {
             builder.ConfigureServices(services => services.AddSingleton(db));
         }).CreateClient();
@@ -29,7 +18,22 @@ public class ArtistsTests : IClassFixture<WebApplicationFactory<Program>> {
         var response = await client.GetAsync("/artists");
         response.IsSuccessStatusCode.ShouldBe(true);
         var html = await response.Content.ReadAsStringAsync();
-        html.ShouldContain(testArtistName1);
-        html.ShouldContain(testArtistName2);
+        html.ShouldContain(TestData.Artist1.Name);
+        html.ShouldContain(TestData.Artist2.Name);
+    }
+
+        [Fact]
+    public async Task Artists_Shows_Includes_Correct_Artist_Name() {
+        
+        var db = await TestDatabase.CreateDbContext().PopulateWithTestDataAsync();
+        
+        var client = factory.WithWebHostBuilder(builder => {
+            builder.ConfigureServices(services => services.AddSingleton(db));
+        }).CreateClient();
+
+        var response = await client.GetAsync($"/artists/shows/{TestData.Artist1.Id}");
+        response.IsSuccessStatusCode.ShouldBe(true);
+        var html = await response.Content.ReadAsStringAsync();
+        html.ShouldContain(TestData.Artist1.Name);
     }
 }
