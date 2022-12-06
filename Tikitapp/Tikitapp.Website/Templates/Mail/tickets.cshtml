@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Emails!</title>
+</head>
+<body>
+	<p>Dear @Model.CustomerName</p>
+	<h1>@Model.Show.Artist.Name</h1>
+	<hr />
+	<p>Live at @Model.Show.Venue.Name</p>
+	<ul>
+		@foreach (var item in Model.Contents) {
+			<li>@item.Quantity x @item.TicketType.Name</li>
+		}
+	</ul>
+	<p>Thank you!</p>
+</body>
+</html>

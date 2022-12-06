@@ -1,0 +1,12 @@
+@Model.Show.Artist.Name
+
+Live at @Model.Show.Venue.Name
+
+Tickets:
+
+@foreach(var item in Model.Contents) {
+@item.Quantity
+@item.TicketType.Name
+}
+
+Thank you!

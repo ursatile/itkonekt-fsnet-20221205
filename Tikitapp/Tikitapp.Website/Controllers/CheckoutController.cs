@@ -30,7 +30,7 @@ public class CheckoutController : Controller {
 		var order = await db.Orders
 			.Include(o => o.Show).ThenInclude(s => s.Artist)
 			.Include(o => o.Show).ThenInclude(s => s.Venue)
-			.Include(o => o.Contents)
+			.Include(o => o.Contents).ThenInclude(item => item.TicketType)
 			.FirstOrDefaultAsync(o => o.Id == post.Id);
 		
 		if (order == default) return NotFound();

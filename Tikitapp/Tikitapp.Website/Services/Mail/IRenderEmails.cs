@@ -1,3 +1,5 @@
+using System.Reflection;
+using RazorEngine.Templating;
 using Tikitapp.Website.Data.Entities;
 
 namespace Tikitapp.Website.Services.Mail;
@@ -8,11 +10,48 @@ public interface IRenderEmails {
 }
 
 public class EmailRenderer : IRenderEmails {
-	public async Task<string> MakeTextOrderConfirmationEmailAsync(Order order) {
-		return await Task.FromResult("THIS IS TEXT");
+
+	private readonly IRazorEngineService razorEngine;
+
+	public EmailRenderer(IRazorEngineService razorEngine) {
+		this.razorEngine = razorEngine;
+		CompileTextTemplate(Templates.TICKET_TEXT, typeof(Order));
+		CompileHtmlTemplate(Templates.TICKET_HTML, typeof(Order));
 	}
 
-	public async Task<string> MakeHtmlOrderConfirmationEmailAsync(Order order) {
-		return await Task.FromResult("<h1>This email is HTML</h1>");
+	private static string ReadEmbeddedResource(string resourceFileName) {
+		var assembly = Assembly.GetAssembly(typeof(EmailRenderer));
+		var name = assembly.GetManifestResourceNames().FirstOrDefault(n => n.EndsWith(resourceFileName));
+		var stream = assembly.GetManifestResourceStream(name);
+		return new StreamReader(stream).ReadToEnd();
 	}
+
+	public static class Templates {
+		public const string TICKET_HTML = "tickets.cshtml";
+		public const string TICKET_TEXT = "tickets.txt";
+	}
+
+	private string Render(string template, object model) =>
+		razorEngine.Run(template, model.GetType(), model);
+
+	private void CompileTextTemplate(string key, Type modelType) {
+		razorEngine.AddTemplate(key, ReadEmbeddedResource(key));
+		razorEngine.Compile(key, modelType);
+	}
+
+	private void CompileHtmlTemplate(string key, Type modelType) {
+		var templateSource = ReadEmbeddedResource(key);
+		//#if DEBUG
+		//		templateSource = RenderMjmlIntoRazor(templateSource);
+		//#endif
+		razorEngine.AddTemplate(key, templateSource);
+		razorEngine.Compile(key, modelType);
+	}
+	
+	public async Task<string> MakeTextOrderConfirmationEmailAsync(Order order)
+		=> await Task.FromResult(Render(Templates.TICKET_TEXT, order));
+
+	public async Task<string> MakeHtmlOrderConfirmationEmailAsync(Order order)
+		=> await Task.FromResult(Render(Templates.TICKET_HTML, order));
 }
+

@@ -5,6 +5,14 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Templates\Mail\tickets.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Templates\Mail\tickets.txt" />
+  </ItemGroup>
   <ItemGroup>
 		<InternalsVisibleTo Include="Tikitapp.Website.Tests" />
 	</ItemGroup>
@@ -19,6 +27,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
     <PackageReference Include="Mimekit" Version="3.4.3" />
+    <PackageReference Include="Mjml.AspNetCore" Version="1.3.0" />
+    <PackageReference Include="RazorEngine.NetCore" Version="3.1.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\css\" />
@@ -26,5 +36,9 @@
   </ItemGroup>
   <ItemGroup>
     <UpToDateCheckInput Remove="wwwroot\sass\site.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\Mail\tickets.cshtml" />
+    <EmbeddedResource Include="Templates\Mail\tickets.txt" />
   </ItemGroup>
 </Project>

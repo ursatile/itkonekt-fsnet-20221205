@@ -11,18 +11,3 @@ public class Artist {
 
 	public virtual List<Show> Shows { get; set; } = new();
 }
-
-public class Order {
-	public Guid Id { get; set; }
-	public Show Show { get; set; } = null!;
-	public virtual List<OrderLineItem> Contents { get; set; } = new();
-	public string CustomerName { get; set; } = String.Empty;
-	public string CustomerEmail { get; set; } = String.Empty;
-}
-
-public class OrderLineItem {
-	public Guid Id { get; set; }
-	public Order Order { get; set; } = null!;
-	public int Quantity { get; set; } = 0;
-	public TicketType TicketType { get; set; } = null!;
-}
