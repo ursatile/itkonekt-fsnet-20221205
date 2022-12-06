@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Tikitapp.Website.Data;
+using Tikitapp.Website.Services.Mail;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,13 @@ builder.Services.AddSassCompiler();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 #endif
 
+var smtpConfig = new SmtpMailOptions();
+builder.Configuration.Bind("SmtpMail", smtpConfig);
+builder.Services.AddTransient<IRenderEmails, EmailRenderer>();
+builder.Services.AddTransient<IMailSender>(services => {
+	var renderer = services.GetService<IRenderEmails>();
+	return new SmtpMailSender(smtpConfig, renderer);
+});
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 // Add services to the container.
