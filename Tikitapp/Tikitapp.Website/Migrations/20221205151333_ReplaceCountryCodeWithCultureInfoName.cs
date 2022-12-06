@@ -16,8 +16,8 @@ namespace Tikitapp.Website.Migrations {
 				maxLength: 16,
 				nullable: false,
 				defaultValue: "");
-                
-            migrationBuilder.Sql(@"
+
+			migrationBuilder.Sql(@"
 UPDATE Venues SET CultureInfoName = 'pt-PT' WHERE CountryCode = 'PT';
 UPDATE Venues SET CultureInfoName = 'en-GB' WHERE CountryCode = 'GB';
 UPDATE Venues SET CultureInfoName = 'nn-NO' WHERE CountryCode = 'NO';
@@ -26,7 +26,7 @@ UPDATE Venues SET CultureInfoName = 'lt-LT' WHERE CountryCode = 'LT';
 UPDATE Venues SET CultureInfoName = 'sr-Latn-RS' WHERE CountryCode = 'RS';
             ");
 
-            migrationBuilder.DropColumn(
+			migrationBuilder.DropColumn(
 				name: "CountryCode",
 				table: "Venues");
 		}

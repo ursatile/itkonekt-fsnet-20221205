@@ -1,4 +1,5 @@
 using System.Globalization;
+
 using Tikitapp.Website.Data.Entities;
 
 namespace Tikitapp.Website.Models;
@@ -6,6 +7,8 @@ namespace Tikitapp.Website.Models;
 public class BasketViewModel {
 	public Guid ShowId { get; set; }
 	public string VenueName { get; set; } = String.Empty;
+	[Newtonsoft.Json.JsonIgnore]
+	[System.Text.Json.Serialization.JsonIgnore]
 	public CultureInfo CultureInfo { get; set; } = CultureInfo.InvariantCulture;
 	public string ArtistName { get; set; } = String.Empty;
 	public string ShowDate { get; set; } = String.Empty;
@@ -16,7 +19,8 @@ public class BasketViewModel {
 		get {
 			try {
 				return new RegionInfo(CultureInfo.LCID).ISOCurrencySymbol;
-			} catch (ArgumentException) {
+			}
+			catch (ArgumentException) {
 				return new RegionInfo("US").ISOCurrencySymbol;
 			}
 		}

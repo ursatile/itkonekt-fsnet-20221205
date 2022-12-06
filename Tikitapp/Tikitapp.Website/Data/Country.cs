@@ -277,12 +277,12 @@ public class Country {
 		Name = name;
 	}
 
-	public static string GetName(string code) 
+	public static string GetName(string code)
 		=> (iso3166.FirstOrDefault(c => c.Code == code) ?? Unknown).Name;
 
-	public static Country? FromCode(string? countryCode) 
+	public static Country? FromCode(string? countryCode)
 		=> Iso3166List.FirstOrDefault(c => c.Code == countryCode);
 
 	public static Country FromCultureInfoName(string cultureInfoName)
-		=> FromCode(cultureInfoName.Split('-').LastOrDefault()) ?? Unknown; 
+		=> FromCode(cultureInfoName.Split('-').LastOrDefault()) ?? Unknown;
 }

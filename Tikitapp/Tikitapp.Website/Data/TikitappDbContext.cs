@@ -13,11 +13,13 @@ public class TikitappDbContext : DbContext {
 	public virtual DbSet<Venue> Venues => Set<Venue>();
 	public virtual DbSet<Show> Shows => Set<Show>();
 	public virtual DbSet<TicketType> TicketTypes => Set<TicketType>();
+	public virtual DbSet<Order> Orders => Set<Order>();
 
 	protected override void OnModelCreating(ModelBuilder builder) {
 		base.OnModelCreating(builder);
 
 		ConfigureSlugs(builder);
+		builder.Entity<OrderLineItem>(entity => entity.ToTable("OrderLineItems"));
 
 		builder.Entity<Artist>(entity => {
 			entity.HasMany(a => a.Shows).WithOne(show => show.Artist);
@@ -30,6 +32,13 @@ public class TikitappDbContext : DbContext {
 
 		builder.Entity<TicketType>(entity => {
 			entity.Property(e => e.Price).HasColumnType("money");
+		});
+
+		builder.Entity<Order>(entity => {
+			entity
+				.HasMany(o => o.Contents)
+				.WithOne(item => item.Order)
+				.OnDelete(DeleteBehavior.Restrict);
 		});
 	}
 
