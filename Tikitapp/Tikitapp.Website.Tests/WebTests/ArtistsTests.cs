@@ -9,7 +9,7 @@ public class ArtistsTests : IClassFixture<WebApplicationFactory<Program>> {
     [Fact]
     public async Task Artists_Index_Returns_SuccessStatusCode() {
         
-        var db = await TestDatabase.CreateDbContext().PopulateWithTestDataAsync();
+        using var db = await TestDatabase.CreateDbContext();
         
         var client = factory.WithWebHostBuilder(builder => {
             builder.ConfigureServices(services => services.AddSingleton(db));
@@ -20,12 +20,13 @@ public class ArtistsTests : IClassFixture<WebApplicationFactory<Program>> {
         var html = await response.Content.ReadAsStringAsync();
         html.ShouldContain(TestData.Artist1.Name);
         html.ShouldContain(TestData.Artist2.Name);
+
     }
 
         [Fact]
     public async Task Artists_Shows_Includes_Correct_Artist_Name() {
         
-        var db = await TestDatabase.CreateDbContext().PopulateWithTestDataAsync();
+        using var db = await TestDatabase.CreateDbContext();
         
         var client = factory.WithWebHostBuilder(builder => {
             builder.ConfigureServices(services => services.AddSingleton(db));
