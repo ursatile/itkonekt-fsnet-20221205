@@ -1,0 +1,22 @@
+@model BasketViewModel
+@{
+	ViewData["Title"] = Model.ArtistName;
+}
+<h1>@Model.ArtistName</h1>
+<h2>@Model.VenueName, @Model.ShowDate</h2>
+<form action="@Url.Action("Update")" method="post">
+	<input type="hidden" name="showId" value="@Model.ShowId" />
+	@Html.DisplayFor(show => show.Contents)
+	<hr />
+	<div class="row">
+		<span class="col-sm-8">
+			<strong>Total</strong>
+		</span>
+		<span class="col-sm-2">
+			TODO
+		</span>
+		<span class="col-sm-2">
+			<input type="button" value="Buy now!" />
+		</span>
+	</div>
+</form>

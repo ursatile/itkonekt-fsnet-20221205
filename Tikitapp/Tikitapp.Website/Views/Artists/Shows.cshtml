@@ -15,8 +15,9 @@
 	    </dt>
         <dd>@foreach(var tt in show.TicketTypes) {
             @tt.Name<text>&nbsp;</text>
-            @tt.Price.ToString("C", show.Venue.CultureInfo)           <br/>
-        }        
+	            @tt.Price.ToString("C", show.Venue.CultureInfo)<text>, </text>
+		}
+			<a href="@Url.Action("Show", "Tickets", new { id = show.Id })">buy tickets</a>
         </dd>
 
     }    

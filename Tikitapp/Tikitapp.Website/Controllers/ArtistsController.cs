@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Tikitapp.Website.Data;
 
+namespace Tikitapp.Website.Controllers;
+
 public class ArtistsController : Controller {
 	private readonly ILogger<ArtistsController> logger;
 	private readonly TikitappDbContext db;

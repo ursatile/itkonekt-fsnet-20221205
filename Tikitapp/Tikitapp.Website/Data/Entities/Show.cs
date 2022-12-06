@@ -7,4 +7,5 @@ public class Show {
 	public DateTimeOffset DoorsOpen { get; set; }
 	public DateTimeOffset ShowStart { get; set; }
 	public virtual List<TicketType> TicketTypes { get; set; } = new();
+	public string Summary => $"{Artist.Name} at {Venue.Name} on {DoorsOpen:D}";
 }
