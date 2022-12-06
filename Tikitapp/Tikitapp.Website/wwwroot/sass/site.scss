@@ -1,0 +1,32 @@
+$background: #000;
+$text: #c9e9ff;
+$brand: #012;
+
+header, nav {
+    background-color: $brand !important;
+    color: white;
+    * ul li a { 
+        color: white !important;
+    }
+
+}
+html, body {
+  font-size: 14px;
+  background-color: $background;
+  color: $text;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
