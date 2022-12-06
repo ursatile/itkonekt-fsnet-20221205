@@ -2,6 +2,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Tikitapp.Website.Data;
+using Tikitapp.Website.Data.Entities;
 using Tikitapp.Website.Models;
 
 namespace Tikitapp.Website.Controllers;
@@ -15,35 +16,27 @@ public class TicketsController : Controller {
 		this.db = db;
 	}
 
-	public IActionResult Show(Guid id) {
-		var show = db.Shows
+	private Show? LoadShow(Guid id) => db.Shows
 			.Include(show => show.Artist)
 			.Include(show => show.Venue)
 			.Include(show => show.TicketTypes)
 			.FirstOrDefault(show => show.Id == id);
-		if (show == default) return NotFound();
 
-		var model = new BasketViewModel {
-			ShowId = show.Id,
-			ArtistName = show.Artist.Name,
-			ShowDate = show.DoorsOpen.ToString("D", CultureInfo.InvariantCulture),
-			VenueName = show.Venue.Name,
-			Contents = show.TicketTypes.Select(t => new TicketTypeViewModel() {
-				Id = t.Id,
-				Name = t.Name,
-				Price = t.Price,
-				FormattedPrice = t.Price.ToString("C", show.Venue.CultureInfo),
-				Quantity = 0
-			}).ToList()
-		};
+	public IActionResult Show(Guid id) {
+		var show = LoadShow(id);
+		if (show == default) return NotFound();
+		var model = show.ToBasketViewModel();
 		return View(model);
 	}
-	
+
 	[HttpPost]
-	public IActionResult Update(Guid showId,
-		Guid? increment, Guid? decrement) {
-		if (increment.HasValue) return Json($"Adding 1 of {increment.Value}");
-		if (decrement.HasValue) return Json($"Removing 1 of {decrement.Value}");
-		return Content("OK");
+	public IActionResult Update(BasketViewModel post, Guid? increment, Guid? decrement) {
+		var show = LoadShow(post.ShowId);
+		if (show == default) return NotFound();
+		var quantities = post.Contents.ToDictionary(item => item.Id, item => item.Quantity);
+		if (increment.HasValue) quantities[increment.Value]++;
+		if (decrement.HasValue) quantities[decrement.Value]--;
+		var model = show.ToBasketViewModel(quantities);
+		return View("Show", model);
 	}
 }
