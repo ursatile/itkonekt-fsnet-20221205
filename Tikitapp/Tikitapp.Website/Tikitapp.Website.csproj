@@ -9,10 +9,18 @@
 		<InternalsVisibleTo Include="Tikitapp.Website.Tests" />
 	</ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AspNetCore.SassCompiler" Version="1.56.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\css\" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="wwwroot\sass\site.scss" />
   </ItemGroup>
 </Project>

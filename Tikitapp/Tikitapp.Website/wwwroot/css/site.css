@@ -1,18 +1,1 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
-}
+header,nav{background-color:#012 !important;color:#fff}header * ul li a,nav * ul li a{color:#fff !important}html,body{font-size:14px;background-color:#000;color:#c9e9ff}@media(min-width: 768px){html{font-size:16px}}html{position:relative;min-height:100%}body{margin-bottom:60px}/*# sourceMappingURL=site.css.map */

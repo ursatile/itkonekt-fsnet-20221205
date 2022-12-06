@@ -3,6 +3,11 @@ using Tikitapp.Website.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+#if DEBUG
+builder.Services.AddSassCompiler();
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+#endif
+
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 // Add services to the container.
