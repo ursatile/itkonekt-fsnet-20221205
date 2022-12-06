@@ -5,8 +5,7 @@ using Tikitapp.Website.Data.Entities;
 namespace Tikitapp.Website.Tests.Controllers;
 
 public class ArtistsControllerTests {
-	private TikitappDbContext db = null!;
-	private NullLogger<ArtistsController> logger = new();
+	private readonly NullLogger<ArtistsController> logger = new();
 
 	[Fact]
 	public async Task Artists_Index_Returns_ViewResult() {
