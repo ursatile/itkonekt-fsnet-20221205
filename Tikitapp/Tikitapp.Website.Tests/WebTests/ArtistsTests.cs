@@ -9,10 +9,10 @@ public class ArtistsTests : IClassFixture<WebApplicationFactory<Program>> {
     [Fact]
     public async Task Artists_Index_Returns_SuccessStatusCode() {
         
-        using var db = await TestDatabase.CreateDbContext();
+        using var testDatabase = await TestDatabase.Create();
         
         var client = factory.WithWebHostBuilder(builder => {
-            builder.ConfigureServices(services => services.AddSingleton(db));
+            builder.ConfigureServices(services => services.AddSingleton(testDatabase.DbContext));
         }).CreateClient();
 
         var response = await client.GetAsync("/artists");
@@ -25,11 +25,10 @@ public class ArtistsTests : IClassFixture<WebApplicationFactory<Program>> {
 
         [Fact]
     public async Task Artists_Shows_Includes_Correct_Artist_Name() {
-        
-        using var db = await TestDatabase.CreateDbContext();
-        
-        var client = factory.WithWebHostBuilder(builder => {
-            builder.ConfigureServices(services => services.AddSingleton(db));
+
+		using var testDatabase = await TestDatabase.Create();
+		var client = factory.WithWebHostBuilder(builder => {
+            builder.ConfigureServices(services => services.AddSingleton(testDatabase.DbContext));
         }).CreateClient();
 
         var response = await client.GetAsync($"/artists/shows/{TestData.Artist1.Slug}");

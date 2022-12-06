@@ -10,16 +10,16 @@ public class ArtistsControllerTests {
 
 	[Fact]
 	public async Task Artists_Index_Returns_ViewResult() {
-		using var db = await TestDatabase.CreateDbContext();
-		var c = new ArtistsController(logger, db); // Arrange
+		using var testDatabase = await TestDatabase.Create();
+		var c = new ArtistsController(logger, testDatabase.DbContext); // Arrange
 		var result = c.Index(); // Act
 		result.ShouldBeOfType<ViewResult>(); // Assert
 	}
 
 	[Fact]
 	public async Task Artist_Shows_Returns_ViewResult_With_Artist_In_Model() {
-		using var db = await TestDatabase.CreateDbContext();
-		var c = new ArtistsController(logger, db); // Arrange
+		using var testDatabase = await TestDatabase.Create();
+		var c = new ArtistsController(logger, testDatabase.DbContext); // Arrange
 		var result = c.Shows(TestData.Artist1.Slug) as ViewResult;
 		result.ShouldNotBeNull();
 		var artist = ((result).Model as Artist);
@@ -31,8 +31,8 @@ public class ArtistsControllerTests {
 
 	[Fact]
 	public async Task Artists_Index_Returns_ViewResult_With_Records_In_Model() {
-		using var db = await TestDatabase.CreateDbContext();
-		var c = new ArtistsController(logger, db);
+		using var testDatabase = await TestDatabase.Create();
+		var c = new ArtistsController(logger, testDatabase.DbContext);
 		var result = c.Index();
 		result.ShouldBeOfType<ViewResult>();
 		var artists = ((ViewResult) result).Model as IEnumerable<Artist>;

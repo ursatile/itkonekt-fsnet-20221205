@@ -5,10 +5,10 @@ using Tikitapp.Website.Data;
 
 public class TestDatabase : IDisposable {
 
-	public static async Task<TikitappDbContext> CreateDbContext() {
+	public static async Task<TestDatabase> Create() {
 		var tdb = new TestDatabase();
 		await tdb.DbContext.PopulateWithTestDataAsync();
-		return tdb.DbContext;
+		return tdb;
 	}
 
 	private TikitappDbContext dbContext;
@@ -16,6 +16,10 @@ public class TestDatabase : IDisposable {
 
 	private TestDatabase() {
 		var sqliteConnection = new SqliteConnection("Filename=:memory:");
+		sqliteConnection.StateChange += (object sender, StateChangeEventArgs e) => {
+			Console.Error.WriteLine("sqlConnection.StateChange happened!");
+			Console.Error.WriteLine(e);
+		};
 		sqliteConnection.Open();
 		var options = new DbContextOptionsBuilder<TikitappDbContext>()
 		.UseSqlite(sqliteConnection)
@@ -23,11 +27,11 @@ public class TestDatabase : IDisposable {
 		dbContext = new TikitappDbContext(options);
 	}
 
-	public void Dispose() {
-		var connection = this.dbContext.Database.GetDbConnection();
-		if (connection.State == ConnectionState.Open) {
-			connection.Close();
-			connection.Dispose();
-		}
-	}
+	 public void Dispose() {
+	 	var connection = this.dbContext.Database.GetDbConnection();
+	 	if (connection.State == ConnectionState.Open) {
+	 		connection.Close();
+	 		connection.Dispose();
+	 	}
+	 }
 }
