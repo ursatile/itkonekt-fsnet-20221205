@@ -1,3 +1,4 @@
+@using System.Globalization
 @model Artist
 
 @{
@@ -7,7 +8,11 @@
 <h1 class="display-4">@Model.Name</h1>
 <dl>
     @foreach(var show in Model.Shows) {
-        <dt>@show.Venue.Name @show.DoorsOpen.ToString("D", show.Venue.CultureInfo)</dt>
+	    <dt>
+		    <country-flag country="@show.Venue.Country" />
+		    @show.Venue.Name @show.Venue.CountryName
+		    @show.DoorsOpen.ToString("D", CultureInfo.InvariantCulture)
+	    </dt>
         <dd>@foreach(var tt in show.TicketTypes) {
             @tt.Name<text>&nbsp;</text>
             @tt.Price.ToString("C", show.Venue.CultureInfo)           <br/>

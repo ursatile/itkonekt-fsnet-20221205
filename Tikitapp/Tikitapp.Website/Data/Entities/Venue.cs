@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Tikitapp.Website.Data.Entities;
 
@@ -13,5 +14,9 @@ public class Venue {
 	public string CultureInfoName { get; set; } = String.Empty;
 	public virtual List<Show> Shows { get; set; } = new();
 
-    public CultureInfo CultureInfo => new CultureInfo(CultureInfoName);
+	public CultureInfo CultureInfo => new(CultureInfoName);
+
+	public Country Country => Country.FromCultureInfoName(CultureInfoName);
+
+	public string CountryName => Country.Name;
 }
