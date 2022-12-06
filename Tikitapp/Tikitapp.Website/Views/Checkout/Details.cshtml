@@ -1,0 +1,8 @@
+@model Order
+@{
+	ViewData["Title"] = "Confirm Order";
+}
+<form action="@Url.Action("Confirm", "Checkout")" method="POST">
+	@Html.EditorForModel()
+		<input type="submit" value="@Buttons.ConfirmOrder"/>
+</form>
