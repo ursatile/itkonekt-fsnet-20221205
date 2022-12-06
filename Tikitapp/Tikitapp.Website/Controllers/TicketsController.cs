@@ -30,14 +30,19 @@ public class TicketsController : Controller {
 	}
 
 	[HttpPost]
-	public IActionResult Update(BasketViewModel post, Guid? increment, Guid? decrement, string verb) {
+	public async Task<IActionResult> Update(BasketViewModel post, Guid? increment, Guid? decrement, string verb) {
 		var show = LoadShow(post.ShowId);
 		if (show == default) return NotFound();
 		var quantities = post.Contents.ToDictionary(item => item.Id, item => item.Quantity);
 		if (increment.HasValue) quantities[increment.Value]++;
 		if (decrement.HasValue) quantities[decrement.Value]--;
+		if (verb == Buttons.BuyNow) {
+			var order = show.CreateOrder(quantities);
+			db.Orders.Add(order);
+			await db.SaveChangesAsync();
+			return RedirectToAction("Details", "Checkout", new { id = order.Id });
+		}
 		var model = show.ToBasketViewModel(quantities);
-		if (verb == Buttons.BuyNow) return Json(model);
 		return View("Show", model);
 	}
 }
