@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Mjml.AspNetCore;
 using RazorEngine;
 using Tikitapp.Website.Data;
 using Tikitapp.Website.Services.Mail;
@@ -15,6 +16,7 @@ builder.Configuration.Bind("SmtpMail", smtpConfig);
 
 builder.Services.AddSingleton(Engine.Razor);
 builder.Services.AddSingleton<IRenderEmails, EmailRenderer>();
+builder.Services.AddMjmlServices();
 builder.Services.AddSingleton<IMailSender>(services => {
 	var renderer = services.GetService<IRenderEmails>();
 	return new SmtpMailSender(smtpConfig, renderer);

@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Templates\Mail\tickets.mjml" />
     <None Remove="Templates\Mail\tickets.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -38,6 +39,7 @@
     <UpToDateCheckInput Remove="wwwroot\sass\site.scss" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Templates\Mail\tickets.mjml" />
     <EmbeddedResource Include="Templates\Mail\tickets.cshtml" />
     <EmbeddedResource Include="Templates\Mail\tickets.txt" />
   </ItemGroup>
