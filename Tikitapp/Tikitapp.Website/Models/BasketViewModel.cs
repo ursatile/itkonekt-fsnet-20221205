@@ -12,6 +12,15 @@ public class BasketViewModel {
 	public List<TicketTypeViewModel> Contents { get; set; } = new();
 	public decimal TotalPrice => Contents.Sum(t => t.TotalPrice);
 	public string FormattedTotalPrice => TotalPrice.ToString("C", CultureInfo);
+	public string CurrencyCode {
+		get {
+			try {
+				return new RegionInfo(CultureInfo.LCID).ISOCurrencySymbol;
+			} catch (ArgumentException) {
+				return new RegionInfo("US").ISOCurrencySymbol;
+			}
+		}
+	}
 }
 
 public class TicketTypeViewModel {

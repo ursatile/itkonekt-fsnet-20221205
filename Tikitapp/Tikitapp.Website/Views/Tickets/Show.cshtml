@@ -12,11 +12,54 @@
 		<span class="col-sm-8">
 			<strong>Total</strong>
 		</span>
-		<span class="col-sm-2">
+		<span class="col-sm-2" id="formatted-total-price" data-value="@Model.TotalPrice">
 			@Model.FormattedTotalPrice
 		</span>
 		<span class="col-sm-2">
-			<input type="button" value="Buy now!" />
+			<input type="submit" name="verb" value="@Buttons.BuyNow" />
 		</span>
 	</div>
 </form>
+@section Scripts {
+	<script>
+		const locale = '@Model.CultureInfo.Name';
+		const currencyCode = '@Model.CurrencyCode';
+		let currencyFormat = new Intl.NumberFormat(locale, {
+				style: 'currency',
+				currency: currencyCode
+		});
+
+		function makeAdjuster(button, totalPriceSpan, amount) {
+				return function(event) {
+						const div = button.closest("div.basket-ticket-item");
+						const input = div.querySelector("input[name$=Quantity]");
+						const span = div.querySelector("span.quantity");
+						const oldInputValue = parseInt(input.value);
+						if (oldInputValue == 0 && amount < 0) return false;
+						input.value = Math.max(0, parseInt(input.value) + amount);
+						span.innerHTML = input.value;
+						const price = parseFloat(div.getAttribute("data-ticket-price"));
+						const oldTotalPrice = parseFloat(totalPriceSpan.getAttribute("data-value"));
+						const newTotalPrice = Math.max(0, oldTotalPrice + (amount * price));
+						totalPriceSpan.setAttribute("data-value", newTotalPrice);
+						const formattedTotalPrice = currencyFormat.format(newTotalPrice);
+						totalPriceSpan.innerHTML = formattedTotalPrice;
+						event.preventDefault();
+						return false;
+				}
+		}
+
+		function attachHandlers() {
+				let totalPriceSpan = document.getElementById("formatted-total-price");
+				document.querySelectorAll("button[name=increment]").forEach(button => {
+						button.addEventListener("click", makeAdjuster(button, totalPriceSpan, +1));
+				});
+				document.querySelectorAll("button[name=decrement]").forEach(button => {
+						button.addEventListener("click", makeAdjuster(button, totalPriceSpan, -1));
+				});
+		}
+
+		attachHandlers();
+
+	</script>
+}

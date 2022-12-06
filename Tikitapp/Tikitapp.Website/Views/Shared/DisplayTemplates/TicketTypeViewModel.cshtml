@@ -1,6 +1,6 @@
 @model TicketTypeViewModel
 <hr />
-<div class="row">
+<div class="row basket-ticket-item" data-ticket-price="@Model.Price">
 	<input asp-for="Id" type="hidden" />
 	<input asp-for="Quantity" value="@Model.Quantity" type="hidden" />
 	<span class="col-sm-8">
@@ -11,7 +11,7 @@
 	</span>
 	<span class="col-sm-2">
 		<button name="increment" value="@Model.Id">@Buttons.IncrementTicket</button>
-		<span>@Model.Quantity</span>
+		<span class="quantity">@Model.Quantity</span>
 		<button name="decrement" value="@Model.Id">@Buttons.DecrementTicket</button>
 	</span>
 </div>
